@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
-
 var db = require('./db');
+var url = require('url');
 
 
 
@@ -13,8 +13,7 @@ app.get('/save_user_fake', function (req, res) {
     db.query('INSERT INTO users SET ?', post, function (err, result) {
         if (err) throw err;
         else {
-            console.log(result.insertId);
-            res.send('Carro salvo com sucesso!');
+            res.send('User fake salvo com sucesso!');
         }
     });
 });
@@ -23,26 +22,34 @@ app.get('/save_car_fake', function (req, res) {
     db.query('INSERT INTO cars SET ?', post, function (err, result) {
         if (err) throw err;
         else {
-            console.log(result.insertId);
-            res.send('Carro salvo com sucesso!');
+            res.send('Carro fake salvo com sucesso!');
         }
     });
 });
 
 app.get(url_pattern + 'cars', function (req, res) {
-    db.query("SELECT * FROM cars", function (err, result, fields) {
+    try {
+        var is_sold = JSON.parse(req.query.is_sold)
+        if (is_sold == true) {
+            var sql_to_get = "SELECT *FROM cars WHERE is_sold=true"
+        } else if (is_sold == false) {
+            var sql_to_get = "SELECT *FROM cars WHERE is_sold=false"
+        }
+    } catch (err) {
+        var sql_to_get = "SELECT *FROM cars"
+    }
+    console.log(sql_to_get);
+    db.query(sql_to_get, function (err, result, fields) {
         if (err) throw err;
-        console.log(result);
         res.send(result);
-    });    
+    });
 });
 
 app.get(url_pattern + 'users', function (req, res) {
     db.query("SELECT * FROM users", function (err, result, fields) {
         if (err) throw err;
-        console.log(result);
         res.send(result);
-    });    
+    });
 });
 
 
