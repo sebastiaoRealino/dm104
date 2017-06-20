@@ -19,16 +19,16 @@ app.get('/save', function (req, res) {
     });
 });
 
-app.get(url_pattern, function (req, res) {
-    res.send('api para carros!');
-});
-
 app.get(url_pattern + 'cars', function (req, res) {
     res.send('listagem de carros');
 });
 
 app.get(url_pattern + 'users', function (req, res) {
-    res.send('listagem de usuários');
+    db.query("SELECT * FROM users", function (err, result, fields) {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    });    
 });
 
 
