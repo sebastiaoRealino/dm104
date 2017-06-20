@@ -9,10 +9,11 @@ url_pattern = '/api/v1/'
 
 var db = require('./db');
 app.get('/save', function (req, res) {
-    var post = { id:'2', name: 'me', gender: 'M', user_type: 'SELLER' };
+    var post = { name: 'me', gender: 'M', user_type: 'SELLER' };
     db.query('INSERT INTO users SET ?', post, function (err, result) {
         if (err) throw err;
         else {
+            console.log(result.insertId);
             res.send('Carro salvo com sucesso!');
         }
     });
