@@ -3,7 +3,7 @@ create table cars (
     model varchar(100) not null,
     color varchar(100) null,
     price varchar(20) null,
-    is_sold varchar(100) null,
+    is_sold BOOLEAN,
     sold_date DATE
 );
 create table users (
@@ -17,5 +17,7 @@ create table cars_users (
     users_id integer not null,
     cars_id integer not null
 );
+
+select *from users
 
 
