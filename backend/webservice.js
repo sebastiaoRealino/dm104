@@ -30,7 +30,7 @@ app.get('/save_car_fake', function (req, res) {
 });
 
 app.get(url_pattern + 'cars', function (req, res) {
-    db.query("SELECT * FROM users", function (err, result, fields) {
+    db.query("SELECT * FROM cars", function (err, result, fields) {
         if (err) throw err;
         console.log(result);
         res.send(result);
