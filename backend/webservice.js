@@ -2,10 +2,13 @@ var express = require('express');
 var app = express();
 var db = require('./db');
 var url = require('url');
-
-
+var bodyParser = require('body-parser');
 
 url_pattern = '/api/v1/'
+
+var app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 
 var db = require('./db');
 app.get('/save_user_fake', function (req, res) {
@@ -42,6 +45,17 @@ app.get(url_pattern + 'cars', function (req, res) {
     db.query(sql_to_get, function (err, result, fields) {
         if (err) throw err;
         res.send(result);
+    });
+});
+
+app.post(url_pattern + 'cars', function (req, res) {
+    console.log(req.body);
+    // var post = { model: '1998', color: 'red', price: '500', is_sold: false, sold_date: '1991-02-04' };
+    db.query('INSERT INTO cars SET ?', req.body, function (err, result) {
+        if (err) throw err;
+        else {
+            res.send('Carro fake salvo com sucesso!');
+        }
     });
 });
 
