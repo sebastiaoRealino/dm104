@@ -59,6 +59,20 @@ app.post(url_pattern + 'cars', function (req, res) {
     });
 });
 
+app.put(url_pattern + 'cars/:id', function (req, res) {
+    
+    var car_id = req.params.id
+    var new_car = req.body;
+    console.log(car_id);
+    var params = [new_car, car_id];
+    db.query('UPDATE cars SET ? WHERE id = ?', params, function (err, result) {
+        if (err) throw err;
+        else {
+            res.send('Carro alterado com sucesso!');
+        }
+    });
+});
+
 app.get(url_pattern + 'users', function (req, res) {
     db.query("SELECT * FROM users", function (err, result, fields) {
         if (err) throw err;
