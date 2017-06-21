@@ -1,0 +1,17 @@
+<div class="container" ng-controller="ListaComprasController">
+    <h1>Lista de compras</h1>
+    <div class="row">
+        <div class="col s10">
+            <form name="validarValoresPreenchidos">
+                <input type="text" ng-model="item.produto" placeholder="Produto" required>
+                <input type="number" ng-model="item.quantidade" placeholder="Quantidade" class="input-small" required>
+                <button ng-hide="edit" class="btn btn-success" ng-disabled="validarValoresPreenchidos.$invalid" ng-click="adicionaItem()">
+        <i class="icon-plus icon-white"></i> adicionar
+      </button>
+                <button ng-show="edit" class="btn btn-success" ng-disabled="validarValoresPreenchidos.$invalid" ng-click="applyChanges()">
+        <i class="icon-ok icon-white"></i> salvar
+      </button>
+            </form>
+        </div>
+    </div>
+</div>

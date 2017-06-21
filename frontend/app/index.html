@@ -1,0 +1,59 @@
+<!--
+  @author ctola
+-->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>angular materializecss</title>
+    <!-- Fonts Icon material-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="bower_components/material-design-icons/iconfont/material-icons.css"> -->
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="lib/css/materialize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+</head>
+
+<body ng-app="app">
+    <header>
+        <nav>
+            <ul id="nav-mobile" class="side-nav fixed">
+                <li><a>Menu</a></li>
+                <li><a ui-sref="cadastro">Cadastro</a></li>
+                <li><a ui-sref="relatorio">Relatório</a></li>
+            </ul>
+            <a href="#" class="button-collapse" data-activates="nav-mobile" data-sidenav="left" data-menuwidth="240" data-closeonclick="false">
+                <i class="mdi-navigation-menu material-icons">menu</i>
+            </a>
+        </nav>
+    </header>
+    <main>
+        <div ui-view></div>
+    </main>
+    <footer>
+        <div class="row"></div>
+    </footer>
+    <!-- Javascript -->
+    <script src="lib/js/jquery.js"></script>
+    <script src="lib/js/angular.js"></script>
+    <script src="lib/js/angular-ui-router.js"></script>
+    <script src="lib/js/angular-resource.js"></script>
+    <script src="lib/js/materialize.js"></script>
+    <script src="lib/js/angular-materialize.js"></script>
+    <script src="js/app.module.js"></script>
+    <script src="js/config/app.config.js"></script>
+    <script src="js/factories/services.factory.js"></script>
+    <script src="js/filters/to.filter.js"></script>
+    <script src="js/controllers/home.controller.js"></script>
+    <script src="js/controllers/user.controller.js"></script>
+    <script src="js/controllers/option.controller.js"></script>
+    <!-- Javascript UI-->
+    <script>
+        //$(".button-collapse").sideNav();
+    </script>
+</body>
+
+</html>
