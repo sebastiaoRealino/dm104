@@ -1,4 +1,12 @@
 app/bower_components
 node_modules
+gulp
+src
 .idea
 *.iml
+.editorconfig
+.eslintrc
+e2e
+protractor.conf.js
+karma.conf.js
+.yo-rc.json
