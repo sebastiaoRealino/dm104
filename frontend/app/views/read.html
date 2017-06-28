@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row">
+        <h2 class="text-center">Lista de Compras - Relatório</h2>
+    </div>
+    <div class="row">
+        <a href="/create#!/create" class="btn btn-primary">Novo item</a>
+    </div>
+    <br/>
+    <div class="row">
+        <table class="bordered striped highlight">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in listacompras">
+                    <td>{{item.id}}</td>
+                    <td>{item.titulo}</td>
+                    <td><a href="#/edit/{{item.id}}" class="btn btn-info btn-block">Editar</a></td>
+                    <td><button ng-click="deletar(item.id)" class="btn btn-danger btn-block">Deletar</button></td>
+                </tr>
+                <tr ng-show="notFound" class="text-center">
+                    <td colspan="4">Não temos itens na lista de compras.</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
