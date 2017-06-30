@@ -3,7 +3,10 @@ var app = express();
 var db = require('./db');
 var url = require('url');
 var bodyParser = require('body-parser');
+var cors = require('cors')
 
+
+app.use(cors())
 url_pattern = '/api/v1/'
 
 var app = express();
@@ -30,7 +33,7 @@ app.get('/save_car_fake', function (req, res) {
     });
 });
 
-app.get(url_pattern + 'cars', function (req, res) {
+app.get(url_pattern + 'cars', cors(), function (req, res) {
     try {
         var is_sold = JSON.parse(req.query.is_sold)
         if (is_sold == true) {
@@ -60,7 +63,7 @@ app.post(url_pattern + 'cars', function (req, res) {
 });
 
 app.put(url_pattern + 'cars/:id', function (req, res) {
-    
+
     var car_id = req.params.id
     var new_car = req.body;
     console.log(car_id);
@@ -73,7 +76,7 @@ app.put(url_pattern + 'cars/:id', function (req, res) {
     });
 });
 
-app.get(url_pattern + 'users', function (req, res) {
+app.get(url_pattern + 'users', cors(), function (req, res) {
     db.query("SELECT * FROM users", function (err, result, fields) {
         if (err) throw err;
         res.send(result);
