@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
 var db = require('./db');
-app.get('/save_user_fake', function (req, res) {
+app.get('/save_user_fake', cors(), function (req, res) {
     var post = { name: 'me', gender: 'M', user_type: 'SELLER' };
     db.query('INSERT INTO users SET ?', post, function (err, result) {
         if (err) throw err;
@@ -23,7 +23,7 @@ app.get('/save_user_fake', function (req, res) {
         }
     });
 });
-app.get('/save_car_fake', function (req, res) {
+app.get('/save_car_fake', cors(), function (req, res) {
     var post = { model: '1998', color: 'red', price: '500', is_sold: false, sold_date: '1991-02-04' };
     db.query('INSERT INTO cars SET ?', post, function (err, result) {
         if (err) throw err;
@@ -32,7 +32,7 @@ app.get('/save_car_fake', function (req, res) {
         }
     });
 });
-
+app.options(url_pattern + 'cars', cors());
 app.get(url_pattern + 'cars', cors(), function (req, res) {
     try {
         var is_sold = JSON.parse(req.query.is_sold)
@@ -51,24 +51,38 @@ app.get(url_pattern + 'cars', cors(), function (req, res) {
     });
 });
 
-app.post(url_pattern + 'cars', function (req, res) {
+app.post(url_pattern + 'cars', cors(), function (req, res) {
     console.log(req.body);
-    // var post = { model: '1998', color: 'red', price: '500', is_sold: false, sold_date: '1991-02-04' };
+    console.log('entrou aqui!')
     db.query('INSERT INTO cars SET ?', req.body, function (err, result) {
         if (err) throw err;
         else {
-            res.send('Carro fake salvo com sucesso!');
+            res.send('Carro salvo com sucesso!');
         }
     });
 });
 
-app.put(url_pattern + 'cars/:id', function (req, res) {
+app.options(url_pattern + 'cars/:id', cors());
+app.put(url_pattern + 'cars/:id', cors(), function (req, res) {
 
     var car_id = req.params.id
+    req.body.sold_date = new Date();
     var new_car = req.body;
-    console.log(car_id);
+    console.log(req.body);
     var params = [new_car, car_id];
     db.query('UPDATE cars SET ? WHERE id = ?', params, function (err, result) {
+        if (err) throw err;
+        else {
+            res.send('Carro alterado com sucesso!');
+        }
+    });
+});
+
+app.delete(url_pattern + 'cars/:id', cors(), function (req, res) {
+
+    var car_id = req.params.id
+    var params = [car_id];
+    db.query('DELETE FROM cars WHERE id = ?', params, function (err, result) {
         if (err) throw err;
         else {
             res.send('Carro alterado com sucesso!');
