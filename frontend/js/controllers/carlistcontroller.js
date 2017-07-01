@@ -1,9 +1,21 @@
 angular.module("vendaCarros").controller("carlistcontroller", function ($scope, contatosAPI, operadorasAPI, serialGenerator) {
 	$scope.app = "Venda de carross";
 	$scope.carros = [];
-	$scope.operadoras = [];
+	$scope.carrosRelatorio = [];
+	$scope.showRelatorio = false;
+
+	$scope.gerarRelatorio = function () {
+		console.log('gerarRelatorio')
+		$scope.showRelatorio = true;
+		contatosAPI.getRelatorio().success(function (data) {
+			$scope.carrosRelatorio = data;
+		}).error(function (data, status) {
+			$scope.message = "Aconteceu um problema: " + data;
+		});
+	};
 
 	var carregarContatos = function () {
+		$scope.showRelatorio = false;
 		contatosAPI.getContatos().success(function (data) {
 			data.forEach(function (item) {
 				item.serial = serialGenerator.generate();
@@ -14,36 +26,46 @@ angular.module("vendaCarros").controller("carlistcontroller", function ($scope, 
 		});
 	};
 
-	var carregarOperadoras = function () {
-		operadorasAPI.getOperadoras().success(function (data) {
-			$scope.operadoras = data;
-		});
-	};
 
-	$scope.adicionarContato = function (contato) {
-		// contato.serial = serialGenerator.generate();
-		contato.data = new Date();
-		contatosAPI.saveContato(contato).success(function (data) {
-			delete $scope.contato;
-			$scope.contatoForm.$setPristine();
+	$scope.esconderRelatorio = function (car) {
+		$scope.showRelatorio = false;
+
+	};
+	$scope.adicionarCarro = function (car) {
+		if (car == undefined ||
+			car.color == undefined ||
+			car.model == undefined ||
+			car.price == undefined) {
+			$scope.showError = true
+		} else {
+			$scope.showError = false
+			contatosAPI.saveCar(car).success(function (data) {
+				delete $scope.car;
+				$scope.carrosForm.$setPristine();
+				carregarContatos();
+			});
+		}
+
+	};
+	$scope.apagarCarro = function (car) {
+		contatosAPI.deleteCar(car).success(function (data) {
+			delete $scope.car;
+			$scope.carrosForm.$setPristine();
 			carregarContatos();
 		});
 	};
-	$scope.apagarCarros = function (contatos) {
-		$scope.contatos = contatos.filter(function (contato) {
-			if (!contato.selecionado) return contato;
+	$scope.marcarComoVendido = function (car) {
+		contatosAPI.sellCar(car).success(function (data) {
+			delete $scope.car;
+			$scope.carrosForm.$setPristine();
+			carregarContatos();
 		});
 	};
-	$scope.isContatoSelecionado = function (carros) {
-		return carros.some(function (carro) {
-			return carro.selecionado;
-		});
-	};
+
 	$scope.ordenarPor = function (campo) {
 		$scope.criterioDeOrdenacao = campo;
 		$scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
 	};
 
 	carregarContatos();
-	carregarOperadoras();
 });
